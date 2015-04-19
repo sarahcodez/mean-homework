@@ -1,9 +1,6 @@
 var ask = require('readline-sync');
 
-var ships = 0;
-var hits = 0;
-var threeSunk = false;
-var guesses = 0;
+var playAgain = true;
 
 var locationObj = function() {   //don't use reserve word location
 	this.ship = false;
@@ -64,55 +61,94 @@ function printGrid(grid) {
 
     	}
 
-    	console.log(x + " " + rowArray.join(" "));
+    	console.log(x + ' ' + rowArray.join(' '));
   	}
 }
 
-var battleshipGrid = generateGrid(10,10); //Array of objects representing coordinates and their properties
+while (playAgain === true) {
 
-generateShips(battleshipGrid); //Place ships on grid
+	var ships = 0;
+	var hits = 0;
+	var threeSunk = false;
+	var guesses = 0;
+	var location1;
+	var location2;
 
-console.log('\nPlay Battleship! See how quickly you can sink three ships!\n');
+	var battleshipGrid = generateGrid(10,10); //Array of objects representing coordinates and their properties
 
-while(threeSunk == false) {
+	generateShips(battleshipGrid); //Place ships on grid
 
-	printGrid(battleshipGrid); //Visual representation of grid
+	console.log('\nPlay Battleship! See how quickly you can sink three ships!\n');
 
-	var guess = ask.question('\nEnter a row and column like this \'0,3\' (row 0, column 3): ');
+	while(threeSunk === false) {
 
-	var rowGuess = parseInt(guess);
-	var indexComma = guess.indexOf(',');
-	var colGuess = parseInt(guess.substr(indexComma + 1));
+		printGrid(battleshipGrid); //Visual representation of grid
 
-	if (rowGuess >= 0 && rowGuess <= 9 && indexComma > -1 && colGuess >= 0 && colGuess <= 9) {
-		guesses += 1;
+		var guess = ask.question('\nEnter a row and column like this \'0,3\' (row 0, column 3): ');
 
-		if (battleshipGrid[rowGuess][colGuess].ship === true) {
-			hits += 1;
-			battleshipGrid[rowGuess][colGuess].hit = true;
-			console.log('\nHIT!!!\n');
+		var rowGuess = parseInt(guess);
+		var indexComma = guess.indexOf(',');
+		var colGuess = parseInt(guess.substr(indexComma + 1));
+		var guessPoint = battleshipGrid[rowGuess][colGuess];
 
-			if (hits === 3) {
-				threeSunk = true;
-				console.log('\nYou sank all three ships!!!\n');
+		if (rowGuess >= 0 && rowGuess <= 9 && indexComma > -1 && colGuess >= 0 && colGuess <= 9) { //confirm that guess is a valid value
+			guesses += 1;
+
+			if (guessPoint.ship === true) {
+
+				if (hits > 0 && (guessPoint === location1 || guessPoint === location2)) { //confirm that user has not already hit that location
+					console.log('\nYou already hit that ship!\n');
+				} else {
+					hits += 1;
+					guessPoint.hit = true;
+					console.log('\nHIT!!!\n');
+
+					if (hits === 1) {
+						location1 = guessPoint;
+					} else if (hits === 2) {
+						location2 = guessPoint;
+					} else { // hits === 3
+						threeSunk = true;
+						console.log('Three ships sunk! YOU WON THE GAME!!!\n');
+
+						printGrid(battleshipGrid);
+						
+						var stats = '\nIt took you ' + guesses + ' guesses to sink all three battleships. \n' + 
+							'Shooting Accuracy: ' + Math.round((3 / guesses) * 100) + '%';
+						console.log (stats);
+					}
+				
+				}
+				
+			} else {
+				guessPoint.miss = true;
+				console.log('\nYou missed!\n');
 			}
 			
 		} else {
-			battleshipGrid[rowGuess][colGuess].miss = true;
-			console.log('\nYou missed!\n');
+			console.log('\nPlease enter a valid row and column number separated by a comma.\n');
 		}
-		
-	} else {
-		console.log('\nPlease enter a valid row and column number separated by a comma.\n');
+
+	}
+
+	var validYN = false;
+	var againYN;
+
+	while (validYN === false) {
+		againYN = ask.question('\nPlay again? (Y/N) ');
+		var againYNCaps = againYN.toUpperCase();
+
+		if (againYNCaps.indexOf('Y') > -1) {
+			validYN = true;
+		} else if (againYNCaps.indexOf('N') > -1) {
+			validYN = true;
+			playAgain = false;
+		} else {
+			console.log('\nPlease enter Y to play again or N to exit.');
+		}
 	}
 
 }
 
-printGrid(battleshipGrid);
-
-var stats = "You took " + guesses + " guesses to sink all three battleships. " + 
-	"Shooting Accuracy: " + ((3 / guesses) * 100) + "%";
-
-console.log (stats);
-
+console.log('\nThank you for playing Battleship!\n');
 
