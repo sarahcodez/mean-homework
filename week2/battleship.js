@@ -151,4 +151,3 @@ while (playAgain === true) {
 }
 
 console.log('\nThank you for playing Battleship!\n');
-
