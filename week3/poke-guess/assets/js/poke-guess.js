@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+//Declare Pokemon object class, Pokemon object instances
+
 	function Pokemon(pokeName, pokeFile) {
 		this.pokeName = pokeName;
 		this.pokeFile = "assets/img/" + pokeFile + ".png";
@@ -26,76 +28,82 @@ $(document).ready(function() {
 	var rattata = new Pokemon("rattata", "019");
 	var raticate = new Pokemon("raticate", "020");
 
+//Initialize guess variables, arrays for unguessed (unguessed/guessed-wrong) and guessed (guessed-right) Pokemon
+
+	var wrongGuesses = 0;
+	var rightGuesses = 0;
+
 	var unguessedPokemon = [bulbasaur, ivysaur, venusaur, charmander, charmeleon, charizard, 
 		squirtle, wartortle, blastoise, caterpie, metapod, butterfree, weedle, kakuna, 
 		beedrill, pidgey, pidgeotto, pidgeot, rattata, raticate];
 
-	var wrongGuesses = 0;
-	var rightGuesses = 0;
 	var guessedPokemon = [];
-	var pokemonImage = $('#pokemon-img');
-	var ball; //rightGuesses
-	var sad; //wrongGuesses
-	var pokemonIndex;
-	var timerNum = 10;
 
-	var correctSound = new Audio("assets/audio/correct_guess.wav");
-	var incorrectSound = new Audio("assets/audio/incorrect_guess.wav");
-	var winMusic = new Audio("assets/audio/win_music.wav");
-	var gameOverSound = new Audio("assets/audio/game_over.wav");
+//Declare variables and function for randomizing pokemon and accessing it
+	
+	var randPokemon;
+	var pokemonIndex;
 
 	var getRandPokemon = function() {
 		pokemonIndex = Math.floor(Math.random() * unguessedPokemon.length);
 		return unguessedPokemon[pokemonIndex];
 	};
 
-	function showSad() {
+//Declare function to change images of guess pokemon and pokeballs
 
-		sad = $("#sad" + wrongGuesses);
-		sad.show();
-		// ball = $('#ball' + rightGuesses);
-		// changeImage(ball, "assets/img/pokeball.png");
+	function changeImage(currentImgID, newImg) {
+		$(currentImgID).attr("src", newImg);
 	}
 
-	$("#sad1, #sad2, #sad3").hide();
+//Declare function to change pokemon
+	
+	function changePokemon() {
+		randPokemon = getRandPokemon();
+		changeImage("#pokemon-img", randPokemon.pokeFile);
+	}		
 
-	var randPokemon = getRandPokemon(); //turn into while loop? (gameplay)
-	changeImage(pokemonImage, randPokemon.pokeFile);
+//Declare function to show images of sad pokemon
 
-	var timer = setInterval(function () {
-	  setTimer();
-	}, 1000);
+	function showSad() {
+		$("#sad" + wrongGuesses).show();
+	}
+
+//Declare sounds
+	
+	var correctSound = new Audio("assets/audio/correct_guess.wav");
+	var incorrectSound = new Audio("assets/audio/incorrect_guess.wav");
+	var winMusic = new Audio("assets/audio/win_music.wav");
+	var gameOverSound = new Audio("assets/audio/game_over.wav");
+
+//Declare timer function and initialize it at 10 seconds
+
+	var timerNum = 10;
 
 	function setTimer() {
-	    
-	    var newNum;
+  	    var newNum;
 
 		if (timerNum >= 10) {
-	      newNum = "0:" + timerNum;
+	      newNum = timerNum;
 	    } else {
-	      newNum = "0:0" + timerNum;
+	      newNum = "0" + timerNum;
 	    }
 
 	    timerNum--;	  
-		document.getElementById("timer").innerHTML = newNum;
-		//$("#timer").html(newTime);
+		$("#timer").html(newNum);
 	  
-	    if(timerNum < 0) { // || submit button is clicked
-	    incorrectSound.play();
+	    if (timerNum < 0) {
 	    wrongGuesses += 1;
-	    alert("Time over! Try again!");
 	    showSad();
-
+	    incorrectSound.play();
+	    alert("Time up!");
+	    
 	    if (wrongGuesses === 3) {
 	    	gameOverSound.play();
 	    	alert("GAME OVER");
-	    	wrongGuesses = 0;
 	    	location.reload();
 	    }
 
-		//refactor as reset
-		randPokemon = getRandPokemon();
-		changeImage(pokemonImage, randPokemon.pokeFile);
+	    changePokemon();
 
 		$("#user-guess").val("");
 	    timerNum = 10;
@@ -103,65 +111,60 @@ $(document).ready(function() {
 	  
 	}
 
-
-	function changeImage(curImgID, newImg) { //refactor like showSad as showBall if not reused
-		curImgID.attr('src', newImg);
-	}	
+//Declare function to check guesses and return result
 
 	function checkGuess(){
 		var input = $("#user-guess").val();
 		var guess = input.toLowerCase();
 
-		if (guess === randPokemon.pokeName) {
+		if (guess === randPokemon.pokeName) { 	//guessed right
 			
 			rightGuesses += 1;
-			ball = $('#ball' + rightGuesses);
-			changeImage(ball, "assets/img/pokeball.png");
+			changeImage("#ball" + rightGuesses, "assets/img/pokeball.png");
 			correctSound.play();
 
-			if (rightGuesses === 5) {
+			if (rightGuesses === 5) { 			//won game
 				winMusic.play();
 				alert("You won!!!");
-				rightGuesses = 0;
 				location.reload();
 				
-			} else { //guessed right but didn't win yet
+			} else { 							//guessed right but haven't won game yet
 				guessedPokemon.push(randPokemon);
 				unguessedPokemon.splice(pokemonIndex, 1);
 			}
 
-
-		} else {
+		} else { 								//guessed wrong
 			
-			incorrectSound.play();
 			wrongGuesses += 1;
 			showSad();
+			incorrectSound.play();
+			alert("Sorry! The correct answer is: " + (randPokemon.pokeName).toUpperCase());
 
-			if (wrongGuesses === 3) {
+			if (wrongGuesses === 3) {			//lost game
+
 	    	gameOverSound.play();
 	    	alert("GAME OVER");
-	    	wrongGuesses = 0;
 	    	location.reload();
+
 	    	}
-
-	    	alert("Try again!");
-
+  	
 		}
 
-		randPokemon = getRandPokemon();
-		changeImage(pokemonImage, randPokemon.pokeFile);
-
+		changePokemon();
 		$("#user-guess").val("");
 		timerNum = 10;
 
 	}
 
-//var timerNum = 10; (moved above)
+	$("#sad1, #sad2, #sad3").hide();
 
-	
+	changePokemon();
+
+	setInterval(function () {
+	  setTimer();
+	}, 1000);
 
 	$("#submit-guess").click(checkGuess);
 
 
 });
-
