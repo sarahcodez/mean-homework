@@ -156,6 +156,8 @@ $(document).ready(function() {
 
 	}
 
+	//Intialize conditions for the page
+
 	$("#sad1, #sad2, #sad3").hide();
 
 	changePokemon();
