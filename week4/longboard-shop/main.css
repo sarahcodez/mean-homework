@@ -1,0 +1,185 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  font-family: "Yanone Kaffeesatz", Helvetica, Arial, sans-serif;
+  background-color: #FFFFDD;
+}
+ 
+header {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem 15%;
+  font-family: "Coming Soon";
+  color: #384252;
+  background-color: #C0EFD2;
+  border-bottom: #384252 solid 3px;
+}
+ 
+.preview-edit {
+  width: 100%;
+  text-align: right;
+  padding-top: 1rem;
+}
+ 
+.preview-edit button, .item-edit .save {
+  font-size: 1.4rem;
+  color: white;
+  padding: .3rem .7rem;
+  border: 3px solid #CA4E4E;
+  background-color: #E25858;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+ 
+h2 {
+  margin: 0;
+}
+ 
+.row {
+  width: 100%;
+}
+ 
+.items {
+  padding: 1rem 2rem;
+}
+ 
+.item {
+  float: left;
+  width: 18%;
+  margin-bottom: 1.5rem;
+  margin-left: 1%;
+  margin-right: 1%;
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.highlight {
+  border: red solid 2px;
+}
+ 
+.item-edit {
+  display: inline-block;
+  width: 27%;
+  margin: 0 1% 1.5rem;
+  text-align: left;
+  font-size: 1.2rem;
+}
+ 
+.item-edit table {
+  width: 100%;
+}
+ 
+.item-edit td {
+  padding-bottom: .5rem;
+}
+ 
+.item-edit input[type="number"] {
+  width: 5rem;
+}
+ 
+.item-edit input[type="text"] {
+  padding: .2rem;
+  width: 9rem;
+}
+ 
+.item-edit .delete {
+  text-decoration: underline;
+  color: #CA4E4E;
+}
+ 
+.item-image {
+  position: relative;
+  width: 100%;
+  text-align: left;
+}
+ 
+.item-image img {
+  width: inherit;
+}
+ 
+.item .top {
+  display: block;
+  z-index: 9;
+}
+ 
+.item .bottom {
+  display: block;
+  position: absolute;
+  z-index: 10;
+}
+ 
+.item .bottom:hover {
+  opacity: 0;
+}
+ 
+.item .name {
+  padding: .5rem;
+  font-weight: bold;
+}
+ 
+.item .price {
+  color: #384252;
+}
+ 
+.filter {
+  display: none;
+  padding: 0 1rem;
+}
+ 
+.filter-category {
+  margin-top: 2rem;
+  font-weight: bold;
+}
+ 
+.filter-inputs, .filter-links {
+  margin-top: .4rem;
+  margin-left: 1rem;
+}
+ 
+.filter-inputs input[type="text"] {
+  width: 3rem;
+}
+ 
+.filter-inputs input[type="checkbox"]  {
+}
+ 
+.cart {
+  display: none;
+}
+ 
+.cart-item {
+  display: table;
+  margin-top: 1.5rem;
+}
+ 
+.cart-item .cart-img {
+  display: table-cell;
+}
+ 
+.cart-item img {
+  height: 8rem;
+}
+ 
+.cart-item .details {
+  display: table-cell;
+  vertical-align: top;
+  padding-left: 1rem;
+}
+ 
+.cart-total {
+  margin-top: 2rem;
+  font-weight: bold;
+  font-size: 1.3rem;
+  font-color: #305B4A;
+}
+ 
+.checkout {
+  margin-top: 1rem;
+}
+ 
+.checkout button {
+  background-color: #E5E2D3;
+  border: 1px solid #5B5749;
+}
