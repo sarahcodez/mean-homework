@@ -1,0 +1,96 @@
+@font-face {
+	font-family: Albas;
+	src: url(fonts/alba/ALBAS___.TTF);
+}
+
+@font-face {
+	font-family: Alba;
+	src: url(fonts/alba/ALBA____.TTF);
+}
+
+h1 {
+	font-family: Albas;
+	font-size: 5em;
+	color: #FF0099;
+}
+
+ul {
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+
+ul li {
+	list-style: none;
+	height: 450px;
+}
+
+ul li img {
+	max-width: 200px;
+	max-height: 200px;
+}
+
+h2 {
+	font-family: Alba;
+	text-align: center;
+	color: #00CC66;
+}
+
+h3 {
+	font-size: 1.5em;
+}
+
+.container {
+	font-family: 'Raleway', sans-serif;
+}
+
+.page-header {
+	text-align: center;
+}
+
+.intro {
+	font-weight: bold;
+	font-size: 1.3em;
+	text-align: left;
+}
+
+.center-block {
+	max-width: 200px;
+}
+
+.price {
+	font-weight: bold;
+}
+
+.condition {
+	font-style: italic;
+	font-size: 0.85em;
+	color: grey;
+}
+
+.add-cart {
+	color: white;
+	background-color: #00CC66;
+}
+
+table {
+	border: solid 2px #00CC66;
+}
+
+.img-responsive {
+	margin: 0 auto; /*Centers images since display is set to block by bootstrap*/
+}
+
+.cart-items img {
+	max-width: 75px;
+}
+
+.total {
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.delete {
+	font-size: 0.75em;
+	color: #00CC66;
+	background-color: white;
+}
